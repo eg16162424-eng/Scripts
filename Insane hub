@@ -1,0 +1,610 @@
+--[[
+    =====================================================
+    INSANE HUB - insane5718
+    ESP + ESP de Ovos + Auto Steal Egg
+    =====================================================
+]]
+
+local MINHA_KEY = "insane5718"
+local LINK_DISCORD = "https://discord.gg/jujC5YhU9X"
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+-- =====================================================
+-- 🔐 KEY SYSTEM
+-- =====================================================
+local keyGui = Instance.new("ScreenGui")
+keyGui.Name = "KeySystem"
+keyGui.ResetOnSpawn = false
+keyGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local keyFrame = Instance.new("Frame")
+keyFrame.Size = UDim2.new(0, 360, 0, 220)
+keyFrame.Position = UDim2.new(0.5, -180, 0.5, -110)
+keyFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+keyFrame.BorderSizePixel = 0
+keyFrame.Parent = keyGui
+local kCorner = Instance.new("UICorner"); kCorner.CornerRadius = UDim.new(0, 10); kCorner.Parent = keyFrame
+local kStroke = Instance.new("UIStroke"); kStroke.Color = Color3.fromRGB(0, 200, 120); kStroke.Thickness = 1.5; kStroke.Parent = keyFrame
+
+local kTitle = Instance.new("TextLabel")
+kTitle.Size = UDim2.new(1, 0, 0, 40)
+kTitle.BackgroundTransparency = 1
+kTitle.Text = "🔒 Insane Hub - Key System"
+kTitle.TextColor3 = Color3.fromRGB(0, 220, 130)
+kTitle.Font = Enum.Font.GothamBold
+kTitle.TextSize = 16
+kTitle.Parent = keyFrame
+
+-- TELA 1: PEGAR KEY / USAR KEY
+local telaMenu = Instance.new("Frame")
+telaMenu.Size = UDim2.new(1, 0, 1, -40)
+telaMenu.Position = UDim2.new(0, 0, 0, 40)
+telaMenu.BackgroundTransparency = 1
+telaMenu.Parent = keyFrame
+
+local btnPegarKey = Instance.new("TextButton")
+btnPegarKey.Size = UDim2.new(0.42, 0, 0, 50)
+btnPegarKey.Position = UDim2.new(0.05, 0, 0.3, 0)
+btnPegarKey.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+btnPegarKey.Text = "🔑 Pegar Key"
+btnPegarKey.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnPegarKey.Font = Enum.Font.GothamBold
+btnPegarKey.TextSize = 14
+btnPegarKey.Parent = telaMenu
+local bpkC = Instance.new("UICorner"); bpkC.CornerRadius = UDim.new(0, 8); bpkC.Parent = btnPegarKey
+
+local btnUsarKey = Instance.new("TextButton")
+btnUsarKey.Size = UDim2.new(0.42, 0, 0, 50)
+btnUsarKey.Position = UDim2.new(0.53, 0, 0.3, 0)
+btnUsarKey.BackgroundColor3 = Color3.fromRGB(0, 180, 110)
+btnUsarKey.Text = "✔️ Usar Key"
+btnUsarKey.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnUsarKey.Font = Enum.Font.GothamBold
+btnUsarKey.TextSize = 14
+btnUsarKey.Parent = telaMenu
+local bukC = Instance.new("UICorner"); bukC.CornerRadius = UDim.new(0, 8); bukC.Parent = btnUsarKey
+
+local hintLabel = Instance.new("TextLabel")
+hintLabel.Size = UDim2.new(0.9, 0, 0, 30)
+hintLabel.Position = UDim2.new(0.05, 0, 0.65, 0)
+hintLabel.BackgroundTransparency = 1
+hintLabel.Text = "Entre no Discord para pegar sua key"
+hintLabel.TextColor3 = Color3.fromRGB(160, 160, 170)
+hintLabel.Font = Enum.Font.Gotham
+hintLabel.TextSize = 12
+hintLabel.Parent = telaMenu
+
+-- TELA 2: DISCORD
+local telaDiscord = Instance.new("Frame")
+telaDiscord.Size = UDim2.new(1, 0, 1, -40)
+telaDiscord.Position = UDim2.new(0, 0, 0, 40)
+telaDiscord.BackgroundTransparency = 1
+telaDiscord.Visible = false
+telaDiscord.Parent = keyFrame
+
+local linkLabel = Instance.new("TextLabel")
+linkLabel.Size = UDim2.new(0.9, 0, 0, 40)
+linkLabel.Position = UDim2.new(0.05, 0, 0.1, 0)
+linkLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+linkLabel.Text = LINK_DISCORD
+linkLabel.TextColor3 = Color3.fromRGB(120, 180, 255)
+linkLabel.Font = Enum.Font.Gotham
+linkLabel.TextSize = 13
+linkLabel.Parent = telaDiscord
+local llC = Instance.new("UICorner"); llC.CornerRadius = UDim.new(0, 6); llC.Parent = linkLabel
+
+local btnCopiar = Instance.new("TextButton")
+btnCopiar.Size = UDim2.new(0.9, 0, 0, 40)
+btnCopiar.Position = UDim2.new(0.05, 0, 0.38, 0)
+btnCopiar.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
+btnCopiar.Text = "📋 Copiar Link Discord"
+btnCopiar.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnCopiar.Font = Enum.Font.GothamBold
+btnCopiar.TextSize = 13
+btnCopiar.Parent = telaDiscord
+local bcC = Instance.new("UICorner"); bcC.CornerRadius = UDim.new(0, 6); bcC.Parent = btnCopiar
+
+local btnVoltar = Instance.new("TextButton")
+btnVoltar.Size = UDim2.new(0.9, 0, 0, 32)
+btnVoltar.Position = UDim2.new(0.05, 0, 0.72, 0)
+btnVoltar.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+btnVoltar.Text = "⬅ Voltar"
+btnVoltar.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnVoltar.Font = Enum.Font.Gotham
+btnVoltar.TextSize = 12
+btnVoltar.Parent = telaDiscord
+local bvC = Instance.new("UICorner"); bvC.CornerRadius = UDim.new(0, 6); bvC.Parent = btnVoltar
+
+-- TELA 3: USAR KEY
+local telaUsarKey = Instance.new("Frame")
+telaUsarKey.Size = UDim2.new(1, 0, 1, -40)
+telaUsarKey.Position = UDim2.new(0, 0, 0, 40)
+telaUsarKey.BackgroundTransparency = 1
+telaUsarKey.Visible = false
+telaUsarKey.Parent = keyFrame
+
+local kBox = Instance.new("TextBox")
+kBox.Size = UDim2.new(0.9, 0, 0, 40)
+kBox.Position = UDim2.new(0.05, 0, 0.1, 0)
+kBox.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+kBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+kBox.PlaceholderText = "Cole sua key aqui..."
+kBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 130)
+kBox.Font = Enum.Font.Gotham
+kBox.TextSize = 14
+kBox.Text = ""
+kBox.ClearTextOnFocus = false
+kBox.Parent = telaUsarKey
+local kbC = Instance.new("UICorner"); kbC.CornerRadius = UDim.new(0, 6); kbC.Parent = kBox
+
+local kMsg = Instance.new("TextLabel")
+kMsg.Size = UDim2.new(1, 0, 0, 20)
+kMsg.Position = UDim2.new(0, 0, 0.45, 0)
+kMsg.BackgroundTransparency = 1
+kMsg.Text = ""
+kMsg.TextColor3 = Color3.fromRGB(255, 80, 80)
+kMsg.Font = Enum.Font.Gotham
+kMsg.TextSize = 12
+kMsg.Parent = telaUsarKey
+
+local btnConfirmar = Instance.new("TextButton")
+btnConfirmar.Size = UDim2.new(0.9, 0, 0, 40)
+btnConfirmar.Position = UDim2.new(0.05, 0, 0.6, 0)
+btnConfirmar.BackgroundColor3 = Color3.fromRGB(0, 180, 110)
+btnConfirmar.Text = "✔ Confirmar Key"
+btnConfirmar.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnConfirmar.Font = Enum.Font.GothamBold
+btnConfirmar.TextSize = 13
+btnConfirmar.Parent = telaUsarKey
+local bcfC = Instance.new("UICorner"); bcfC.CornerRadius = UDim.new(0, 6); bcfC.Parent = btnConfirmar
+
+local btnVoltar2 = Instance.new("TextButton")
+btnVoltar2.Size = UDim2.new(0.9, 0, 0, 32)
+btnVoltar2.Position = UDim2.new(0.05, 0, 0.85, 0)
+btnVoltar2.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+btnVoltar2.Text = "⬅ Voltar"
+btnVoltar2.TextColor3 = Color3.fromRGB(255, 255, 255)
+btnVoltar2.Font = Enum.Font.Gotham
+btnVoltar2.TextSize = 12
+btnVoltar2.Parent = telaUsarKey
+local bv2C = Instance.new("UICorner"); bv2C.CornerRadius = UDim.new(0, 6); bv2C.Parent = btnVoltar2
+
+-- NAVEGAÇÃO
+btnPegarKey.MouseButton1Click:Connect(function()
+    telaMenu.Visible = false
+    telaDiscord.Visible = true
+end)
+
+btnUsarKey.MouseButton1Click:Connect(function()
+    telaMenu.Visible = false
+    telaUsarKey.Visible = true
+end)
+
+btnVoltar.MouseButton1Click:Connect(function()
+    telaDiscord.Visible = false
+    telaMenu.Visible = true
+end)
+
+btnVoltar2.MouseButton1Click:Connect(function()
+    telaUsarKey.Visible = false
+    telaMenu.Visible = true
+end)
+
+btnCopiar.MouseButton1Click:Connect(function()
+    pcall(function()
+        if setclipboard then setclipboard(LINK_DISCORD)
+        elseif toclipboard then toclipboard(LINK_DISCORD) end
+    end)
+    btnCopiar.Text = "✔ Copiado!"
+    task.wait(1.5)
+    btnCopiar.Text = "📋 Copiar Link Discord"
+end)
+
+-- =====================================================
+-- CONFIG
+-- =====================================================
+local Config = {
+    ESP = { Enabled = true, Box = true, Name = true, Distance = true, Health = true, TeamCheck = true, Color = Color3.fromRGB(0, 255, 120) },
+    EggESP = { Enabled = true, ShowRarity = true },
+    StealEgg = {
+        Enabled = false,
+        AutoBest = true,
+        Speed = 120,
+        ChickenName = "Chicken",
+        EggFolder = "Eggs",
+    }
+}
+
+local CORES_RARIDADE = {
+    ["Comum"]     = Color3.fromRGB(180, 180, 180),
+    ["Incomum"]   = Color3.fromRGB(80, 220, 80),
+    ["Raro"]      = Color3.fromRGB(60, 130, 255),
+    ["Épico"]     = Color3.fromRGB(170, 80, 255),
+    ["Lendário"]  = Color3.fromRGB(255, 165, 0),
+    ["Mítico"]    = Color3.fromRGB(255, 60, 60),
+    ["Cósmico"]   = Color3.fromRGB(80, 230, 255),
+    ["Divino"]    = Color3.fromRGB(255, 255, 255),
+    ["Eterno"]    = Color3.fromRGB(255, 100, 255),
+    ["Secreto"]   = Color3.fromRGB(150, 0, 0),
+}
+
+-- =====================================================
+-- HUB UI
+-- =====================================================
+local function criarHub()
+    local hubGui = Instance.new("ScreenGui")
+    hubGui.Name = "InsaneHub"
+    hubGui.ResetOnSpawn = false
+    hubGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 280, 0, 380)
+    mainFrame.Position = UDim2.new(0, 20, 0, 20)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(18, 18, 24)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Active = true
+    mainFrame.Draggable = true
+    mainFrame.Parent = hubGui
+    local c = Instance.new("UICorner"); c.CornerRadius = UDim.new(0, 10); c.Parent = mainFrame
+    local s = Instance.new("UIStroke"); s.Color = Color3.fromRGB(0, 200, 120); s.Thickness = 1.5; s.Parent = mainFrame
+
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, 0, 0, 34)
+    title.BackgroundTransparency = 1
+    title.Text = "⚡ Insane Hub • insane5718"
+    title.TextColor3 = Color3.fromRGB(0, 220, 130)
+    title.Font = Enum.Font.GothamBold
+    title.TextSize = 14
+    title.Parent = mainFrame
+
+    local function toggle(nome, y, callback)
+        local b = Instance.new("TextButton")
+        b.Size = UDim2.new(0.9, 0, 0, 32)
+        b.Position = UDim2.new(0.05, 0, 0, y)
+        b.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+        b.Text = nome .. ": OFF"
+        b.TextColor3 = Color3.fromRGB(255, 255, 255)
+        b.Font = Enum.Font.Gotham
+        b.TextSize = 12
+        b.Parent = mainFrame
+        local cc = Instance.new("UICorner"); cc.CornerRadius = UDim.new(0, 6); cc.Parent = b
+        local st = false
+        b.MouseButton1Click:Connect(function()
+            st = not st
+            b.Text = nome .. ": " .. (st and "ON" or "OFF")
+            b.BackgroundColor3 = st and Color3.fromRGB(0, 150, 90) or Color3.fromRGB(35, 35, 45)
+            callback(st)
+        end)
+        return b
+    end
+
+    toggle("👁️ ESP Jogadores", 45, function(v) Config.ESP.Enabled = v end)
+    toggle("🥚 ESP Ovos + Raridade", 82, function(v) Config.EggESP.Enabled = v end)
+    toggle("🐾 Auto Best Pet", 119, function(v) Config.StealEgg.AutoBest = v end)
+
+    local info = Instance.new("TextLabel")
+    info.Size = UDim2.new(0.9, 0, 0, 50)
+    info.Position = UDim2.new(0.05, 0, 0, 160)
+    info.BackgroundColor3 = Color3.fromRGB(25, 25, 32)
+    info.TextColor3 = Color3.fromRGB(180, 180, 190)
+    info.Font = Enum.Font.Gotham
+    info.TextSize = 11
+    info.TextWrapped = true
+    info.Text = "Status: aguardando..."
+    info.Parent = mainFrame
+    local ic = Instance.new("UICorner"); ic.CornerRadius = UDim.new(0, 6); ic.Parent = info
+
+    local bigBtn = Instance.new("TextButton")
+    bigBtn.Size = UDim2.new(0.9, 0, 0, 60)
+    bigBtn.Position = UDim2.new(0.05, 0, 0, 300)
+    bigBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 110)
+    bigBtn.Text = "🥚 AUTO STEAL EGG"
+    bigBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    bigBtn.Font = Enum.Font.GothamBold
+    bigBtn.TextSize = 15
+    bigBtn.Parent = mainFrame
+    local bc = Instance.new("UICorner"); bc.CornerRadius = UDim.new(0, 8); bc.Parent = bigBtn
+
+    bigBtn.MouseButton1Click:Connect(function()
+        Config.StealEgg.Enabled = not Config.StealEgg.Enabled
+        bigBtn.Text = Config.StealEgg.Enabled and "🥚 AUTO STEAL EGG: ON" or "🥚 AUTO STEAL EGG"
+        bigBtn.BackgroundColor3 = Config.StealEgg.Enabled and Color3.fromRGB(0, 220, 130) or Color3.fromRGB(0, 180, 110)
+        info.Text = "Status: " .. (Config.StealEgg.Enabled and "Farmando ovos..." or "Parado.")
+    end)
+end
+
+-- =====================================================
+-- ESP JOGADORES
+-- =====================================================
+local espObjects = {}
+local function createESP(plr)
+    local box = Drawing.new("Square"); box.Thickness = 1; box.Filled = false; box.Transparency = 1; box.Color = Config.ESP.Color
+    local nm = Drawing.new("Text"); nm.Size = 14; nm.Center = true; nm.Outline = true; nm.Color = Color3.fromRGB(255,255,255)
+    local ds = Drawing.new("Text"); ds.Size = 12; ds.Center = true; ds.Outline = true; ds.Color = Color3.fromRGB(200,200,200)
+    local hp = Drawing.new("Text"); hp.Size = 12; hp.Center = true; hp.Outline = true; hp.Color = Color3.fromRGB(0,255,0)
+    espObjects[plr] = {box = box, name = nm, dist = ds, health = hp}
+end
+
+for _, plr in ipairs(Players:GetPlayers()) do
+    if plr ~= LocalPlayer then createESP(plr) end
+end
+Players.PlayerAdded:Connect(function(p) if p ~= LocalPlayer then createESP(p) end end)
+Players.PlayerRemoving:Connect(function(p)
+    if espObjects[p] then
+        for _, o in pairs(espObjects[p]) do o:Remove() end
+        espObjects[p] = nil
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    for plr, objs in pairs(espObjects) do
+        local char = plr.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        if not (Config.ESP.Enabled and hrp and hum and hum.Health > 0) then
+            for _, o in pairs(objs) do o.Visible = false end
+            continue
+        end
+        if Config.ESP.TeamCheck and plr.Team == LocalPlayer.Team then
+            for _, o in pairs(objs) do o.Visible = false end
+            continue
+        end
+        local pos, onScreen = Camera:WorldToViewportPoint(hrp.Position)
+        if not onScreen then
+            for _, o in pairs(objs) do o.Visible = false end
+            continue
+        end
+        local head = char:FindFirstChild("Head")
+        if not head then continue end
+        local headPos = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+        local footPos = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
+        local height = math.abs(headPos.Y - footPos.Y)
+        local width = height / 2
+        objs.box.Visible = Config.ESP.Box
+        objs.box.Size = Vector2.new(width, height)
+        objs.box.Position = Vector2.new(pos.X - width/2, pos.Y - height/2)
+        objs.name.Visible = Config.ESP.Name
+        objs.name.Position = Vector2.new(pos.X, pos.Y - height/2 - 18)
+        objs.name.Text = plr.Name
+        objs.dist.Visible = Config.ESP.Distance
+        objs.dist.Position = Vector2.new(pos.X, pos.Y + height/2 + 2)
+        objs.dist.Text = string.format("[%d m]", (Camera.CFrame.Position - hrp.Position).Magnitude)
+        objs.health.Visible = Config.ESP.Health
+        objs.health.Position = Vector2.new(pos.X, pos.Y + height/2 + 16)
+        objs.health.Text = "❤ " .. math.floor(hum.Health)
+    end
+end)
+
+-- =====================================================
+-- ESP OVOS COM RARIDADE
+-- =====================================================
+local eggEspObjects = {}
+
+local function getEggRarity(egg)
+    local raridade = "Comum"
+    pcall(function()
+        if egg:GetAttribute("Rarity") then raridade = egg:GetAttribute("Rarity")
+        elseif egg:GetAttribute("rarity") then raridade = egg:GetAttribute("rarity")
+        else
+            local r = egg:FindFirstChild("Rarity") or egg:FindFirstChild("rarity")
+            if r and r:IsA("StringValue") then raridade = r.Value
+            elseif r and r:IsA("NumberValue") then
+                local mapa = {
+                    [1] = "Comum", [2] = "Incomum", [3] = "Raro",
+                    [4] = "Épico", [5] = "Lendário", [6] = "Mítico",
+                    [7] = "Cósmico", [8] = "Divino", [9] = "Eterno", [10] = "Secreto"
+                }
+                raridade = mapa[r.Value] or "Comum"
+            end
+        end
+    end)
+    raridade = string.gsub(raridade, "^%l", string.upper)
+    return raridade
+end
+
+local function criarEggESP(egg)
+    local label = Drawing.new("Text")
+    label.Size = 14; label.Center = true; label.Outline = true; label.Font = 2
+    label.Text = ""; label.Color = Color3.fromRGB(255, 255, 255); label.Transparency = 1
+    eggEspObjects[egg] = label
+end
+
+local function removerEggESP(egg)
+    if eggEspObjects[egg] then
+        eggEspObjects[egg]:Remove()
+        eggEspObjects[egg] = nil
+    end
+end
+
+task.spawn(function()
+    while task.wait(1) do
+        local eggFolder = workspace:FindFirstChild(Config.StealEgg.EggFolder)
+            or workspace:FindFirstChild("Eggs")
+            or workspace:FindFirstChild("EggsFolder")
+        if not eggFolder then continue end
+        for _, egg in ipairs(eggFolder:GetChildren()) do
+            if (egg:IsA("Model") or egg:IsA("BasePart")) and not eggEspObjects[egg] then
+                criarEggESP(egg)
+            end
+        end
+        for egg, label in pairs(eggEspObjects) do
+            if not egg.Parent then removerEggESP(egg) end
+        end
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    for egg, label in pairs(eggEspObjects) do
+        if not egg.Parent or not Config.EggESP.Enabled then
+            label.Visible = false
+            continue
+        end
+        local pos
+        if egg:IsA("Model") then
+            local p = egg.PrimaryPart or egg:FindFirstChildWhichIsA("BasePart")
+            pos = p and p.Position
+        else
+            pos = egg.Position
+        end
+        if not pos then label.Visible = false; continue end
+        local screenPos, onScreen = Camera:WorldToViewportPoint(pos)
+        if onScreen then
+            label.Visible = true
+            label.Position = Vector2.new(screenPos.X, screenPos.Y)
+            if Config.EggESP.ShowRarity then
+                local raridade = getEggRarity(egg)
+                label.Text = egg.Name .. " [" .. raridade .. "]"
+                label.Color = CORES_RARIDADE[raridade] or Color3.fromRGB(255, 255, 255)
+            else
+                label.Text = egg.Name
+                label.Color = Color3.fromRGB(255, 255, 255)
+            end
+        else
+            label.Visible = false
+        end
+    end
+end)
+
+-- =====================================================
+-- STEAL EGG
+-- =====================================================
+local function getEggs()
+    local eggFolder = workspace:FindFirstChild(Config.StealEgg.EggFolder)
+        or workspace:FindFirstChild("Eggs")
+        or workspace:FindFirstChild("EggsFolder")
+    if not eggFolder then return {} end
+    local lista = {}
+    for _, obj in ipairs(eggFolder:GetChildren()) do
+        if obj:IsA("Model") or obj:IsA("BasePart") then table.insert(lista, obj) end
+    end
+    return lista
+end
+
+local function getEggValue(egg)
+    local valor = 0
+    pcall(function()
+        if egg:GetAttribute("Value") then valor = egg:GetAttribute("Value") end
+        local v = egg:FindFirstChild("Value") or egg:FindFirstChild("Worth") or egg:FindFirstChild("Price")
+        if v and v:IsA("NumberValue") then valor = v.Value end
+    end)
+    return valor
+end
+
+local function getBestEgg()
+    local ovos = getEggs()
+    local melhor, maiorValor = nil, -1
+    for _, ovo in ipairs(ovos) do
+        local v = getEggValue(ovo)
+        if v > maiorValor then maiorValor = v; melhor = ovo end
+    end
+    return melhor, maiorValor
+end
+
+local function getEggPosition(egg)
+    if egg:IsA("Model") then
+        local p = egg.PrimaryPart or egg:FindFirstChildWhichIsA("BasePart")
+        return p and p.Position or nil
+    elseif egg:IsA("BasePart") then
+        return egg.Position
+    end
+    return nil
+end
+
+local function pegarOvo(egg)
+    for _, d in ipairs(egg:GetDescendants()) do
+        if d:IsA("ProximityPrompt") then
+            pcall(function() fireproximityprompt(d) end)
+        elseif d:IsA("ClickDetector") then
+            pcall(function() fireclickdetector(d) end)
+        end
+    end
+end
+
+local function pegarMelhorPet()
+    pcall(function()
+        for _, r in ipairs(game:GetService("ReplicatedStorage"):GetDescendants()) do
+            if r:IsA("RemoteEvent") and r.Name:lower():find("equip") then
+                r:FireServer("Best")
+            end
+        end
+    end)
+end
+
+local humanoidConn
+local function conectarDano()
+    local char = LocalPlayer.Character
+    if not char then return end
+    local hum = char:FindFirstChildOfClass("Humanoid")
+    if not hum then return end
+    if humanoidConn then humanoidConn:Disconnect() end
+    humanoidConn = hum.HealthChanged:Connect(function(novaVida)
+        if novaVida < hum.MaxHealth then
+            task.wait(0.05)
+        end
+    end)
+end
+
+LocalPlayer.CharacterAdded:Connect(conectarDano)
+if LocalPlayer.Character then conectarDano() end
+
+task.spawn(function()
+    while task.wait(0.2) do
+        if not Config.StealEgg.Enabled then continue end
+        local char = LocalPlayer.Character
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+        if not (char and hum) then continue end
+
+        if Config.StealEgg.AutoBest then pcall(pegarMelhorPet) end
+
+        local melhorOvo = getBestEgg()
+        if not melhorOvo then continue end
+
+        local galinha = workspace:FindFirstChild(Config.StealEgg.ChickenName, true)
+        if galinha then
+            local gp = galinha:IsA("Model") and (galinha.PrimaryPart or galinha:FindFirstChildWhichIsA("BasePart"))
+            if gp then
+                local hrp = char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    hrp.CFrame = CFrame.new(gp.Position + Vector3.new(0, 3, 3))
+                    task.wait(0.3)
+                end
+            end
+        end
+
+        local eggPos = getEggPosition(melhorOvo)
+        if eggPos then
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.CFrame = CFrame.new(eggPos + Vector3.new(0, 2, 0))
+                task.wait(0.1)
+            end
+        end
+
+        pegarOvo(melhorOvo)
+        task.wait(0.2)
+
+        hum.WalkSpeed = Config.StealEgg.Speed
+        task.wait(2)
+        hum.WalkSpeed = 16
+    end
+end)
+
+-- =====================================================
+-- VERIFICAÇÃO DA KEY
+-- =====================================================
+btnConfirmar.MouseButton1Click:Connect(function()
+    if kBox.Text == MINHA_KEY then
+        kMsg.TextColor3 = Color3.fromRGB(0, 255, 120)
+        kMsg.Text = "✔ Key válida! Abrindo hub..."
+        task.wait(1)
+        keyGui:Destroy()
+        criarHub()
+    else
+        kMsg.Text = "✖ Key inválida. Tente novamente."
+        kBox.Text = ""
+    end
+end)
